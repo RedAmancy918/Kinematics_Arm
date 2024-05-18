@@ -1,0 +1,5 @@
+/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/CMakeFiles/Kinematics_Arm.dir
+/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/CMakeFiles/Kinematics_Arm_autogen_timestamp_deps.dir
+/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/CMakeFiles/Kinematics_Arm_autogen.dir
