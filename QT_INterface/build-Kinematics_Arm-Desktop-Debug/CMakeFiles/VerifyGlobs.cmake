@@ -41,6 +41,7 @@ endif()
 # _directory_contents at /usr/lib/x86_64-linux-gnu/cmake/Qt5LinguistTools/Qt5LinguistToolsMacros.cmake:78 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/*.cpp")
 set(OLD_GLOB
+  "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/arm_sys.cpp"
   "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/main.cpp"
   "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/mainwindow.cpp"
   )
@@ -61,6 +62,7 @@ endif()
 # _directory_contents at /usr/lib/x86_64-linux-gnu/cmake/Qt5LinguistTools/Qt5LinguistToolsMacros.cmake:78 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/*.h")
 set(OLD_GLOB
+  "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/arm_sys.h"
   "/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/mainwindow.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")

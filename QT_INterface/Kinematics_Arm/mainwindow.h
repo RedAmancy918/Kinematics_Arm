@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSlider>
-#include <QLabel>
+#include "arm_sys.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,12 +17,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void onSliderValueChacnged(int value);
+    void onRotationValueChanged(int value);
+    void onFirstArmValueChanged(int value);
+    void onSecondArmValueChanged(int value);
+    void onFixtureValueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
-    QSlider *slider;
-    QLabel *valueLabel;
-     ArmController armController;
+    mg90s motor1;
+    mg90s motor2;
+    mg90s motor3;
+    mg90s motor4;
 };
+
 #endif // MAINWINDOW_H

@@ -1,0 +1,10 @@
+# ninja log v5
+0	7	0	/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/CMakeFiles/cmake.verify_globs	69f1fd126ed64d27
+0	126	1716158671880775666	Kinematics_Arm_autogen/timestamp	8f91db4d867581e2
+0	126	1716158671880775666	Kinematics_Arm_autogen/mocs_compilation.cpp	8f91db4d867581e2
+0	126	1716158671880775666	/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/Kinematics_Arm_autogen/timestamp	8f91db4d867581e2
+0	126	1716158671880775666	/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/build-Kinematics_Arm-Desktop-Debug/Kinematics_Arm_autogen/mocs_compilation.cpp	8f91db4d867581e2
+126	130	1716158671888775736	/home/geo/Documents/Github/Kinematics_Arm/QT_INterface/Kinematics_Arm/Kinematics_Arm_en_GB.ts	7d2c2f679a8c4ac4
+130	813	1716158672572781658	CMakeFiles/Kinematics_Arm.dir/Kinematics_Arm_autogen/mocs_compilation.cpp.o	6e116882a7241fd1
+130	867	1716158672624782109	CMakeFiles/Kinematics_Arm.dir/main.cpp.o	f6c2d4f6aa6e11b1
+130	1064	1716158672824783840	CMakeFiles/Kinematics_Arm.dir/mainwindow.cpp.o	634526de26e9d06a

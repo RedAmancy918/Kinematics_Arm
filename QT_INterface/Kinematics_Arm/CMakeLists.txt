@@ -17,11 +17,13 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 set(TS_FILES Kinematics_Arm_en_GB.ts)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        ${TS_FILES}
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    arm_sys.cpp
+    arm_sys.h
+    ${TS_FILES}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -29,29 +31,37 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Kinematics_Arm APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(ANDROID)
         add_library(Kinematics_Arm SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(Kinematics_Arm
             ${PROJECT_SOURCES}
         )
     endif()
-
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(Kinematics_Arm PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+# 查找 pigpio 库
+find_path(PIGPIO_INCLUDE_DIR pigpio.h)
+find_library(PIGPIO_LIBRARY NAMES pigpio pigpiod_if2)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Pigpio DEFAULT_MSG PIGPIO_LIBRARY PIGPIO_INCLUDE_DIR)
+
+if(PIGPIO_FOUND)
+    set(PIGPIO_LIBRARIES ${PIGPIO_LIBRARY})
+    set(PIGPIO_INCLUDE_DIRS ${PIGPIO_INCLUDE_DIR})
+else()
+    message(FATAL_ERROR "Could not find Pigpio library")
+endif()
+
+# 链接 pigpio 库
+target_include_directories(Kinematics_Arm PRIVATE ${PIGPIO_INCLUDE_DIRS})
+target_link_libraries(Kinematics_Arm PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${PIGPIO_LIBRARIES})
 
 set_target_properties(Kinematics_Arm PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
