@@ -1,30 +1,32 @@
 #ifndef ARM_SYS_H
 #define ARM_SYS_H
 
-#include <functional> // For std::function
+#include <QObject>
+#include <functional>
 
-class mg90s
-{
+class ArmSys : public QObject {
+    Q_OBJECT
+
 public:
     using CallbackFunction = std::function<void()>;
 
-    // define the input
-    mg90s(int gpioPin, float initialAngle = 0.0);
+    explicit ArmSys(int gpioPin, float initialAngle = 0.0);
+    virtual ~ArmSys();
 
-    ~mg90s();
+    void setTargetAngleAsync(float angle);
 
-    void setTargetAngleAsync(float angle, CallbackFunction callback = nullptr);
+signals:
+    void operationCompleted();
 
 private:
     static bool initialized;
     static int instances;
     int pin;
-    float currentAngle; // No need to change this
-    CallbackFunction onTargetReached;
+    float currentAngle;
 
+    void detectAndMoveToAngle(float angle);
     void moveToAngleSlowly(float targetAngle);
     int angleToPulseWidth(float angle);
-    void detectAngle(float angle);
 };
 
 #endif // ARM_SYS_H

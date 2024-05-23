@@ -1,88 +1,65 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QSlider>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , motor1(21)
-    , motor2(20)
-    , motor3(19)
-    , motor4(6)
+    , motor1(21)  // 假设第一个电机连接到 GPIO 21
+    , motor2(20)  // 假设第二个电机连接到 GPIO 20
+    , motor3(19)  // 假设第三个电机连接到 GPIO 19
+    , motor4(6)   // 假设第四个电机连接到 GPIO 6
 {
     ui->setupUi(this);
 
-    //  QSlider
-    QSlider *Rotation = findChild<QSlider*>("Rotation");
-    QSlider *Fixture = findChild<QSlider*>("Fixture");
-    QSlider *First_arm = findChild<QSlider*>("First_arm");
-    QSlider *Second_arm = findChild<QSlider*>("Second_arm");
+    // 查找 UI 中的 QSlider 控件
+    QSlider *rotationSlider = findChild<QSlider*>("Rotation");
+    QSlider *fixtureSlider = findChild<QSlider*>("Fixture");
+    QSlider *firstArmSlider = findChild<QSlider*>("First_arm");
+    QSlider *secondArmSlider = findChild<QSlider*>("Second_arm");
 
-    //  QLabel
-    QLabel *Rotation_label = findChild<QLabel*>("Rotation_value");
-    QLabel *First_value = findChild<QLabel*>("First_value");
-    QLabel *Second_value = findChild<QLabel*>("Second_value");
-    QLabel *Fixture_value = findChild<QLabel*>("Fixture_value");
+    // 查找 UI 中的 QLabel 控件
+    QLabel *rotationLabel = findChild<QLabel*>("Rotation_value");
+    QLabel *firstValueLabel = findChild<QLabel*>("First_value");
+    QLabel *secondValueLabel = findChild<QLabel*>("Second_value");
+    QLabel *fixtureLabel = findChild<QLabel*>("Fixture_value");
 
-    // 连接 QSlider 的 valueChanged 到槽函数
-    connect(Rotation, &QSlider::valueChanged, this, &MainWindow::onRotationValueChanged);
-    connect(Fixture, &QSlider::valueChanged, this, &MainWindow::onFixtureValueChanged);
-    connect(First_arm, &QSlider::valueChanged, this, &MainWindow::onFirstArmValueChanged);
-    connect(Second_arm, &QSlider::valueChanged, this, &MainWindow::onSecondArmValueChanged);
+    // 连接 QSlider 的 valueChanged 信号到相应的处理函数
+    connect(rotationSlider, &QSlider::valueChanged, [this, rotationLabel](int value) {
+        rotationLabel->setText(QString::number(value));
+        qDebug() << "Rotation Slider value: " << value;
+        motor1.setTargetAngleAsync(value);
+    });
 
-    // 初始化一下
-    Rotation_label->setText(QString::number(Rotation->value()));
-    First_value->setText(QString::number(First_arm->value()));
-    Second_value->setText(QString::number(Second_arm->value()));
-    Fixture_value->setText(QString::number(Fixture->value()));
+    connect(fixtureSlider, &QSlider::valueChanged, [this, fixtureLabel](int value) {
+        fixtureLabel->setText(QString::number(value));
+        qDebug() << "Fixture Slider value: " << value;
+        int mappedValue = value * 115 / 100 - 90;  // 根据需要调整映射
+        motor4.setTargetAngleAsync(mappedValue);
+    });
+
+    connect(firstArmSlider, &QSlider::valueChanged, [this, firstValueLabel](int value) {
+        firstValueLabel->setText(QString::number(value));
+        qDebug() << "First Arm Slider value: " << value;
+        motor2.setTargetAngleAsync(value);
+    });
+
+    connect(secondArmSlider, &QSlider::valueChanged, [this, secondValueLabel](int value) {
+        secondValueLabel->setText(QString::number(value));
+        qDebug() << "Second Arm Slider value: " << value;
+        motor3.setTargetAngleAsync(value);
+    });
+
+    // 初始化显示滑块的当前值
+    rotationLabel->setText(QString::number(rotationSlider->value()));
+    firstValueLabel->setText(QString::number(firstArmSlider->value()));
+    secondValueLabel->setText(QString::number(secondArmSlider->value()));
+    fixtureLabel->setText(QString::number(fixtureSlider->value()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::onRotationValueChanged(int value)
-{
-    // 更新标签显示当前滑块值
-    QLabel *Rotation_label = findChild<QLabel*>("rotation_value");
-    Rotation_label->setText(QString::number(value));
-    qDebug() << "Rotation Slider value: " << value;
-
-
-    motor1.setTargetAngleAsync(value);
-}
-
-void MainWindow::onFirstArmValueChanged(int value)
-{
-    // 更新标签显示当前滑块值
-    QLabel *First_value = findChild<QLabel*>("first_value");
-    First_value->setText(QString::number(value));
-    qDebug() << "First Arm Slider value: " << value;
-
-
-    motor2.setTargetAngleAsync(value);
-}
-
-void MainWindow::onSecondArmValueChanged(int value)
-{
-    // 更新标签显示当前滑块值
-    QLabel *Second_value = findChild<QLabel*>("second_value");
-    Second_value->setText(QString::number(value));
-    qDebug() << "Second Arm Slider value: " << value;
-
-
-    motor3.setTargetAngleAsync(value);
-}
-
-void MainWindow::onFixtureValueChanged(int value)
-{
-    // 更新标签显示当前滑块值
-    QLabel *Fixture_value = findChild<QLabel*>("fixture_value");
-    Fixture_value->setText(QString::number(value));
-    qDebug() << "Fixture Slider value: " << value;
-
-
-    int mapped_value = value * 115 / 100 - 90;
-    motor4.setTargetAngleAsync(mapped_value);
 }
